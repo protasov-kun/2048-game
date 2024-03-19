@@ -3,7 +3,7 @@ resource "yandex_compute_disk" "boot-disk-1" {
   name     = "boot-disk-1"
   type     = "network-hdd"
   zone     = "ru-central1-a"
-  size     = "10"
+  size     = "5"
   image_id = "fd8c3t86dc563mtmnqce"
 }
 
@@ -45,7 +45,6 @@ resource "yandex_vpc_subnet" "subnet-1" {
 output "internal_ip_address_game01" {
   value = yandex_compute_instance.game01.network_interface.0.ip_address
 }
-
 
 output "external_ip_address_game01" {
   value = yandex_compute_instance.game01.network_interface.0.nat_ip_address

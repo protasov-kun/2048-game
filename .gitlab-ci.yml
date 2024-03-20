@@ -1,10 +1,6 @@
 stages:
   - build
 
-variables:
-
-  DOCKERFILE_PATH: "/home/protas/"
-
 build-docker:
   stage: build
   image: docker:stable
@@ -15,5 +11,6 @@ build-docker:
 #  before_script:
 #    - docker login -u Deployer -p ${ACCESS_TOKEN} registry.gitlab.com
   script:
-    - docker build -t ${DOCKER_ENV_CI_REGISTRY_IMAGE} $DOCKERFILE_PATH .
+    - cd /home/protas/2048-game/
+    - docker build -t ${DOCKER_ENV_CI_REGISTRY_IMAGE} .
     - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}

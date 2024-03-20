@@ -4,8 +4,8 @@ stages:
 
 variables:
   DOCKER_IMAGE_NAME: "2048-game-image"
-  DOCKER_REGISTRY: "registry.gitlab.com/protasov-kun/2048-game"
-  DOCKERFILE_PATH: "/home/protas/2048-game/"
+  DOCKER_REGISTRY: "https://gitlab.com/protasov-kun/2048-game/container_registry"
+  DOCKERFILE_PATH: "/home/protas/2048-game/Dockerfile"
   TAG: "docker-build"
 
 build:

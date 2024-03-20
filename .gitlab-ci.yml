@@ -17,6 +17,5 @@ build-docker:
     - docker tag 2048-game-image $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE:$VER
     - docker push $CI_REGISTRY_IMAGE
-  
   tags:
     - docker-build

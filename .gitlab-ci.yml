@@ -11,5 +11,5 @@ build-docker:
 #  before_script:
 #    - docker login -u Deployer -p ${ACCESS_TOKEN} registry.gitlab.com
   script:
-    - docker build -t ${DOCKER_ENV_CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA} --build-arg branch=${CI_COMMIT_REF_NAME} .
+    - docker build -t ${DOCKER_ENV_CI_REGISTRY_IMAGE} --build-arg branch=${CI_COMMIT_REF_NAME} .
     - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}

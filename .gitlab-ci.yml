@@ -13,4 +13,4 @@ build-docker:
   script:
     - cd /home/protas/2048-game/
     - docker build -t 2048-game-image .
-    - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}
+    - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}:latest

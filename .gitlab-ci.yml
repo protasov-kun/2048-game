@@ -8,8 +8,8 @@ build-docker:
     - main
   services:
     - docker:dind
-#  before_script:
-#    - docker login -u Deployer -p ${ACCESS_TOKEN} registry.gitlab.com
+  before_script:
+    - docker login -u prtasov-kun -p ${ACCESS_TOKEN} registry.gitlab.com
   script:
     - cd /home/protas/2048-game/
     - docker build -t registry.gitlab.com/protasov-kun/2048-game:latest .

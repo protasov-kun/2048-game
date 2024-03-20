@@ -9,7 +9,7 @@ build-docker:
   services:
     - docker:dind
   before_script:
-    - docker login -u ${CI_DEPLOY_USER} -p ${ACCESS_TOKEN} registry.gitlab.com
+    - docker login -u ${CI_REGISTRY_USER} -p ${ACCESS_TOKEN} registry.gitlab.com
   script:
     - VER="$(echo $CI_COMMIT_MESSAGE | sed 's/[^a-zA-Z0-9\.]//g')"
     - docker build -t 2048-game-image .

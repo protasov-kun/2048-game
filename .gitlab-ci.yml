@@ -12,5 +12,5 @@ build-docker:
 #    - docker login -u Deployer -p ${ACCESS_TOKEN} registry.gitlab.com
   script:
     - cd /home/protas/2048-game/
-    - docker build -t ${DOCKER_ENV_CI_REGISTRY_IMAGE} .
-    - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+    - docker build -t 2048-game-image .
+    - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}

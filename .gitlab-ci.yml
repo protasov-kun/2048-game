@@ -3,7 +3,7 @@ stages:
 
 variables:
 
-  DOCKERFILE_PATH: "/home/protas/Dockerfile"
+  DOCKERFILE_PATH: "/home/protas/"
 
 build-docker:
   stage: build

@@ -1,21 +1,15 @@
 stages:
   - build
 
-
-variables:
-  DOCKER_IMAGE_NAME: "2048-game-image"
-  DOCKER_REGISTRY: "registry.gitlab.com/protasov-kun/2048-game"
-  DOCKERFILE_PATH: "/home/protas/2048-game/"
-  TAG: "docker-build"
-
-build:
+build-docker:
   stage: build
   image: docker:stable
-  services:
-    - docker:dind
-  script:
-    - docker build -t $DOCKER_IMAGE_NAME:$TAG -f $DOCKERFILE_PATH .
-#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $DOCKER_REGISTRY
-    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$TAG
   only:
     - main
+  services:
+    - docker:dind
+#  before_script:
+#    - docker login -u Deployer -p ${ACCESS_TOKEN} registry.gitlab.com
+  script:
+    - docker build -t ${DOCKER_ENV_CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME} --build-arg branch=${CI_COMMIT_REF_NAME} .
+    - docker push ${DOCKER_ENV_CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}

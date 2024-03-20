@@ -12,5 +12,5 @@ build-docker:
 #    - docker login -u Deployer -p ${ACCESS_TOKEN} registry.gitlab.com
   script:
     - cd /home/protas/2048-game/
-    - docker build -t 2048-game-image .
+    - docker build -t registry.gitlab.com/protasov-kun/2048-game:latest .
     - docker push registry.gitlab.com/protasov-kun/2048-game:latest

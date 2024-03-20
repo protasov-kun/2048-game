@@ -13,8 +13,8 @@ build-docker:
   script:
     - VER="$(echo $CI_COMMIT_MESSAGE | sed 's/[^a-zA-Z0-9\.]//g')"
     - docker build -t 2048-game-image .
-    - docker tag webd $CI_REGISTRY_IMAGE:$VER
-    - docker tag webd $CI_REGISTRY_IMAGE
+    - docker tag 2048-game-image $CI_REGISTRY_IMAGE:$VER
+    - docker tag 2048-game-image $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE:$VER
     - docker push $CI_REGISTRY_IMAGE
   

@@ -17,5 +17,6 @@ build-docker:
     - docker tag webd $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE:$VER
     - docker push $CI_REGISTRY_IMAGE
+  
   tags:
     - docker-build

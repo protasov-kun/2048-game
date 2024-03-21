@@ -33,6 +33,12 @@ resource "yandex_compute_instance" "game01" {
 
 resource "yandex_vpc_network" "network-1" {
   name = "network1"
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      terraform output > host_ipv4_adress.txt
+    EOT
+  }
 }
 
 resource "yandex_vpc_subnet" "subnet-1" {

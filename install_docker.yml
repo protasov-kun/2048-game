@@ -1,0 +1,13 @@
+- name: Run Terraform output command
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Run Terraform output command
+      shell: /home/protas/2048-game/run_terraform_output.sh
+      delegate_to: localhost
+
+- name: Install Docker
+  hosts: hosts
+  become: true
+  roles:
+    - role: docker

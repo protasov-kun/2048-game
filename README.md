@@ -16,3 +16,7 @@ sudo dpkg -i gitlab-runner_amd64.deb
 if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi
+
+sudo apt update && sudo apt install ansible
+
+ansible-playbook install_docker.yml -i inventory.yaml  --ask-become-pass

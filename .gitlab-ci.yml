@@ -13,6 +13,7 @@ build-docker:
   script:
     - VER="$(echo $CI_COMMIT_MESSAGE | sed 's/[^0-9\.]//g')"
     - docker build -t 2048-game-image .
+    - docker image prune -f
     - docker tag 2048-game-image $CI_REGISTRY_IMAGE:$VER
     - docker tag 2048-game-image $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE:$VER

@@ -68,7 +68,7 @@ provider "yandex" {
 ```
 terraform init && terraform apply
 ```
-![run](https://i.gifer.com/8siB.gif)
+![run](https://www.daidegasforum.com/images1/821/aston-martin-one-77-drift-slide-gif.gif)
 
 
 # Теперь приступим к жесткому DevOps
@@ -136,30 +136,19 @@ git push gitlab master
 
 Тут имеется ***Ansible Role,*** устанавливающая ***Docker*** на вашу новую тачку.
 
-Да, тут костыли, не обессудьте.
-
-В файле плейбука `/home/<user>/2048-game/install_docker.yml` отредактируйте:
-```
-вместо
-      shell: /home/protas/2048-game/run_terraform_output.sh
-нада
-      shell: /home/<user>/2048-game/run_terraform_output.sh
-```
-
 Роль можно предварительно прогнать по ***molecule*** тесту:
 ```
 sudo apt update && sudo apt install python3-pip
 pip install molecule
 ```
-Запустите из каталога `/home/<user>/2048-game/docker/` команду:
+Запустите из каталога `/home/<user>/2048-game/ansible-role-docker/` команду:
 ```
 molecule test --scenario-name test-docker
 ```
 Из каталога `/home/<user>/2048-game/` запусите плейбук:
 ```
-ansible-playbook install_docker.yml -i inventory.yaml  --ask-become-pass
+ansible-playbook install_docker.yml
 ```
-да еще один костыль, придется ввести пароль от вашего рута.
 
 А на сегодня все, до новых встреч
 ![все](https://img2.joyreactor.cc/pics/post/длиннопост-реактор-помогающий-original-content-живность-5033160.gif)
@@ -170,4 +159,3 @@ ansible-playbook install_docker.yml -i inventory.yaml  --ask-become-pass
 docker run -d -p 80:8080 --name 2048-game 2048-game-image
 ```
 и поиграть в браузере на `http://localhost`
-

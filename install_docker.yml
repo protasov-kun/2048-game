@@ -3,11 +3,13 @@
   gather_facts: no
   tasks:
     - name: Run Terraform output command
-      shell: /home/protas/2048-game/run_terraform_output.sh
-      delegate_to: localhost
+      shell: ~/2048-game/run_terraform_output.sh
+    - name: Reload ansible configuration
+      meta: refresh_inventory
 
 - name: Install Docker
   hosts: hosts
   become: true
   roles:
-    - role: docker
+    - role: ansible-role-docker
+    

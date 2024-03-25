@@ -20,3 +20,4 @@ build-docker:
     - docker push $CI_REGISTRY_IMAGE
   tags:
     - build
+    

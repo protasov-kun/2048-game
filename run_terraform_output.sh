@@ -1,5 +1,13 @@
 #!/bin/bash
 
-terraform output | grep external_ip_address_game01 | cut -d' ' -f3 | sed 's/"//g' > game01_ipv4_address.txt
-awk '/^ *game01:/ {print; getline new_ip < "game01_ipv4_address.txt"; print "      ansible_host:", new_ip; f=1; next} f && /^ *ansible_host:/ {f=0; next} 1' inventory.yaml > temp && mv temp inventory.yaml
-rm game01_ipv4_address.txt
+# Получаем IP-адрес из Terraform output
+ip_address=$(terraform output | grep external_ip_address_game01 | cut -d' ' -f3 | sed 's/"//g')
+
+# Создаем временный файл для обновленных данных
+temp_file=$(mktemp)
+
+# Заменяем IP-адрес в файле hosts
+awk -v ip="$ip_address" '/game01/ {sub(/ansible_host=[0-9.]*/, "ansible_host=" ip)} 1' hosts > "$temp_file"
+
+# Перемещаем временный файл на место исходного
+mv "$temp_file" hosts

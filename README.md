@@ -107,7 +107,7 @@ Value: [Personal Access Token](https://gitlab.com/-/user_settings/personal_acces
 ```
 sudo gitlab-runner register
 ```
-в качестве URL, укмжате `https://gitlab.com/`, регистрационный токен для ранера можно найти сдесь `https://gitlab.com/<user>/2048-game/-/settings/ci_cd`, добавьте тэги `docker,latest`.
+в качестве URL, укмжате `https://gitlab.com/`, регистрационный токен для ранера можно найти сдесь `https://gitlab.com/<user>/2048-game/-/settings/ci_cd`, добавьте тэги `buils,deploy,latest`.
 
 Убедитесь, что вы находитесь в рабочем каталоге `/home/<user>/2048-game/`.
 

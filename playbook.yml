@@ -3,7 +3,7 @@
   gather_facts: no
   tasks:
     - name: Run Terraform output command
-      shell: ~/2048-game/run_terraform_output.sh
+      shell: {{ lookup('env', 'HOME') }}/2048-game/run_terraform_output.sh
     - name: Reload ansible configuration
       meta: refresh_inventory
 

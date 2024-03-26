@@ -153,7 +153,7 @@ chmod g+x ~/2048-game/run_terraform_output.sh
 
 chmod g+r ~/.ssh/id_ed25519
 
-sudo mv ~/.ssh/id_ed25519 /home/gitlab-runner/.ssh/id_ed25519
+sudo cp ~/.ssh/id_ed25519 /home/gitlab-runner/.ssh/id_ed25519
 
 sudo chmod +rw /home/gitlab-runner/.ssh/known_host
 

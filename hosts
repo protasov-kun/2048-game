@@ -1,5 +1,5 @@
 [hosts]
-game01 ansible_host=178.154.205.187
+game01 ansible_host=178.154.202.149
 
 [localhosts]
 localhost ansible_connection=local

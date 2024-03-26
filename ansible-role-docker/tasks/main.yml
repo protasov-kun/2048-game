@@ -7,4 +7,11 @@
     update_cache: true
   tags:
     - ansible-role-docker
-    
+
+- name: Start Docker container from GitLab registry
+  docker_container:
+    name: 2048-game
+    image: registry.gitlab.com/protasov-kun/2048-game:latest
+    state: started
+    ports:
+      - "80:8080"

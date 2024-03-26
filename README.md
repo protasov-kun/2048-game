@@ -134,28 +134,13 @@ git push gitlab master
 
 ## А что насчет виртуальной машины?
 
-Тут имеется ***Ansible Role,*** устанавливающая ***Docker*** на вашу новую тачку.
+Тут имеется ***Ansible Role,*** устанавливающая ***Docker*** и запускающая контейнер на вашей новой тачке.
 
-Роль можно предварительно прогнать по ***molecule*** тесту:
-```
-sudo apt update && sudo apt install python3-pip
-pip install molecule
-```
-Запустите из каталога `/home/<user>/2048-game/ansible-role-docker/` команду:
-```
-molecule test --scenario-name test-docker
-```
 Из каталога `/home/<user>/2048-game/` запусите плейбук:
 ```
 ansible-playbook install_docker.yml
 ```
+Теперь можно в адресно троке браузера указать ip-адрес вашей виртуальной машины и играть.
 
 А на сегодня все, до новых встреч
 ![все](https://img2.joyreactor.cc/pics/post/длиннопост-реактор-помогающий-original-content-живность-5033160.gif)
-
-
-Можете на хост системе из каталога `/home/<user>/2048-game/` запустить:
-```
-docker run -d -p 80:8080 --name 2048-game 2048-game-image
-```
-и поиграть в браузере на `http://localhost`

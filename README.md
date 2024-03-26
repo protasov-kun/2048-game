@@ -42,7 +42,10 @@ provider_installation {
 }
 ```
 
-Создайте пару ключей SSH `ssh-keygen -t ed25519`
+Создайте пару ключей SSH
+```
+ssh-keygen -t ed25519
+```
 
 В файле `/home/<user>/2048-game/main.tf` отредактируйте директиву:
 ```

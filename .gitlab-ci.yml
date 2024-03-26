@@ -25,6 +25,7 @@ build-docker:
 run-docker-contsiner:
   stage: deploy
   script:
+    - sh run_terraform_output.sh
     - ansible-galaxy install -r requirements.yml
     - ansible-playbook playbook.yml
   only:

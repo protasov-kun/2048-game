@@ -1,15 +1,14 @@
-- name: Run Terraform output command
-  hosts: localhost
-  gather_facts: no
-  tasks:
-    - name: Run Terraform output command
-      shell: /home/protas/2048-game/run_terraform_output.sh
-    - name: Reload ansible configuration
-      meta: refresh_inventory
+#- name: Run Terraform output command
+#  hosts: localhost
+#  gather_facts: no
+#  tasks:
+#    - name: Run Terraform output command
+#      shell: /home/protas/2048-game/run_terraform_output.sh
+#    - name: Reload ansible configuration
+#      meta: refresh_inventory
 
 - name: Install Docker
   hosts: hosts
   become: true
   roles:
     - role: ansible-role-docker
-    

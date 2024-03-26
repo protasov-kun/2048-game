@@ -144,3 +144,7 @@ ansible-playbook install_docker.yml
 
 А на сегодня все, до новых встреч
 ![все](https://img2.joyreactor.cc/pics/post/длиннопост-реактор-помогающий-original-content-живность-5033160.gif)
+
+
+
+ansible-galaxy install -r requirements.yml

@@ -1,0 +1,5 @@
+roles:
+  - name: ansible-role-docker
+    src: https://github.com/protasov-kun/ansible-role-docker
+    version: main
+  

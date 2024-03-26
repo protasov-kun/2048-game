@@ -1,5 +1,6 @@
 stages:
   - build
+  - deploy
 
 build-docker:
   stage: build
@@ -20,4 +21,13 @@ build-docker:
     - docker push $CI_REGISTRY_IMAGE
   tags:
     - build
-    
+
+run-docker-contsiner:
+  stage: deploy
+  script:
+    - ansible-galaxy install -r requirements.yml
+    - ansible-playbook -i hosts playbook.yml
+  only:
+    - main
+  tags:
+    - deploy

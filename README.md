@@ -149,6 +149,9 @@ ansible-playbook install_docker.yml
 
 ansible-galaxy install -r requirements.yml
 
-chmod +x ~/2048-game/run_terraform_output.sh
+chmod g+x ~/2048-game/run_terraform_output.sh
 
-chmod +r ~/.ssh/id_ed25519
+chmod g+r ~/.ssh/id_ed25519
+
+chmod g+r ~/.ssh
+

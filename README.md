@@ -13,19 +13,22 @@ git clone https://github.com/protasov-kun/2048-game
 
 Убедитесь, что у вас есть аккаунт на [GitLab](https://about.gitlab.com/) и создайте в нем проект ***2048-game***.
 
-Надеюсь у вас есть [Personal Access Token](https://gitlab.com/-/user_settings/personal_access_tokens)? Он нам пригадится в будущем.
+Надеюсь у вас есть [Personal Access Token](https://gitlab.com/-/user_settings/personal_access_tokens)? Он нам пригодится в будущем.
 
-Синхронизируте ваш рабочий каталог `/home/<user>/2048-game` с репозиторием [GitLab:](https://about.gitlab.com/)
+Синхронизируйте ваш рабочий каталог `/home/<user>/2048-game` с репозиторием [GitLab:](https://about.gitlab.com/)
 ```
 git remote remove github
 git remote add gitlab https://gitlab.com/<user>/2048-game.git
+git switch --create main
 ```
 
 # Инициализируем Terraform и запустим виртуальную машину
 
-Для начала следует создать каталог, сервисный аккаунт и назначить роли в соответствии с [документацией YC,](https://cloud.yandex.ru/ru/docs/tutorials/infrastructure-management/terraform-quickstart#before-you-begin)а так же создать авторизованный ключ для сервисного аккаунта. *В нашем случае авторизованный ключ хранится в домашнем каталоге пользователя* `/home/<user>/`.
+Для начала следует создать каталог, сервисный аккаунт и назначить роли в соответствии с [документацией YC,](https://cloud.yandex.ru/ru/docs/tutorials/infrastructure-management/terraform-quickstart#before-you-begin)а так же создать авторизованный ключ для сервисного аккаунта.
 
-Установить пакет *terraform*
+*В нашем случае авторизованный ключ хранится в домашнем каталоге пользователя* `/home/<user>/`.
+
+Установите пакет *terraform*
 ```
 sudo snap install --classic terrafofm
 ```
@@ -69,8 +72,10 @@ provider "yandex" {
 
 ##### Далее введите команды:
 ```
-terraform init && terraform apply
+terraform init && terraform apply && sh run_terraform_output.sh
 ```
+скрипт run_terraform_output.sh обновит файл `hosts`, актуализировав ip-адрес виртуальной машины.
+
 ![run](https://www.daidegasforum.com/images1/821/aston-martin-one-77-drift-slide-gif.gif)
 
 
@@ -91,18 +96,24 @@ sudo gitlab-runner start
 sudo usermod -aG gitlab-runner $USER && sudo usermod -aG docker $USER
 ```
 
+Приготовим все для подключения gitlab-runner по ssh:
+``` 
+sudo cp ~/.ssh/id_ed25519 /home/gitlab-runner/.ssh/id_ed25519
+sudo chown gitlab-runner:gitlab-runner /home/gitlab-runner/.ssh/id_ed25519
+sudo chmod +rw /home/gitlab-runner/.ssh/known_hos
+```
 
-В файле `/home/gitlab-runner/.bash_logout` закоментируйте директиву:
+В файле `/home/gitlab-runner/.bash_logout` закомментируйте директиву:
 ```
 #if [ "$SHLVL" = 1 ]; then
 #    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 #fi
 ```
-## Давайте билдить
+## Давайте устроим CI/CD
 
 Здесь как раз нам и пригодится тот самый [Personal Access Token](https://gitlab.com/-/user_settings/personal_access_tokens) в качестве пароля к учетке, когда это потребуется.
 
-Чтобв в ходе пайплайна докер мог подключаться к ***Container Registry*** создайте переменную в настройках [GitLab](https://about.gitlab.com/) `https://gitlab.com/<user>/2048-game/-/settings/ci_cd` в разделе `Variables` c:
+Чтобs в ходе пайплайна докер мог подключаться к ***Container Registry*** создайте переменную в настройках [GitLab](https://about.gitlab.com/) `https://gitlab.com/<user>/2048-game/-/settings/ci_cd` в разделе `Variables` c:
 Key: ACCESS_TOKEN
 Value: [Personal Access Token](https://gitlab.com/-/user_settings/personal_access_tokens)
 
@@ -110,7 +121,11 @@ Value: [Personal Access Token](https://gitlab.com/-/user_settings/personal_acces
 ```
 sudo gitlab-runner register
 ```
-в качестве URL, укмжате `https://gitlab.com/`, регистрационный токен для ранера можно найти сдесь `https://gitlab.com/<user>/2048-game/-/settings/ci_cd`, добавьте тэги `buils,deploy,latest`.
+- в качестве URL укажате `https://gitlab.com/`
+  
+- регистрационный токен для ранера можно найти здесь `https://gitlab.com/<user>/2048-game/-/settings/ci_cd`
+
+- добавьте тэги `buils,deploy,latest`.
 
 Убедитесь, что вы находитесь в рабочем каталоге `/home/<user>/2048-game/`.
 
@@ -121,43 +136,26 @@ git add .
 
 Файл пайплайна `/home/<user>/2048-game/.gitlab-ci.yml` содержит команду, кторая вычлиняет цифры и точки из `commit message` и тэжит результатом образ.
 
-Поэтому рекомндую коммит делать примерно так:
+Поэтому commit mesage должен быть примерно такой:
 ```
 git commit -m "sdelal priemlemo, image version 1.0"
 ```
 
 Пушим:
 ```
-git push gitlab master
+git push gitlab main
 ```
+здесь в качестве пароль указываем [Personal Access Token.](https://gitlab.com/-/user_settings/personal_access_tokens)
 
-Пайплайн добавит в ***Container Registry*** две версии образа:
-1. 1.0
+В нашем пайплайне две стадии: ***build*** и ***deploy***.
+
+В ***build*** соберется docker образ и отправится в ***Container Registry*** в двух версиях:
+1. 1.0 `сочетание цифр и точек, которые мы указали в commit message`
 2. latest
 
-## А что насчет виртуальной машины?
+В ***deploy*** запустится ansible-playbook, который с помощью ansible-galaxy применит роль, запускающую на виртуальной машине контейнер из `latest` образа в нашем ***Container Registry.***
 
-Тут имеется ***Ansible Role,*** устанавливающая ***Docker*** и запускающая контейнер на вашей новой тачке.
-
-Из каталога `/home/<user>/2048-game/` запусите плейбук:
-```
-ansible-playbook install_docker.yml
-```
-Теперь можно в адресно троке браузера указать ip-адрес вашей виртуальной машины и играть.
+Теперь можно в адресной строке браузера указать ip-адрес вашей виртуальной машины и поиграть.
 
 А на сегодня все, до новых встреч
 ![все](https://img2.joyreactor.cc/pics/post/длиннопост-реактор-помогающий-original-content-живность-5033160.gif)
-
-
-
-ansible-galaxy install -r requirements.yml
-
-chmod g+x ~/2048-game/run_terraform_output.sh
-
-sudo cp ~/.ssh/id_ed25519 /home/gitlab-runner/.ssh/id_ed25519
-
-sudo chown gitlab-runner:gitlab-runner /home/gitlab-runner/.ssh/id_ed25519
-
-sudo chmod +rw /home/gitlab-runner/.ssh/known_host
-
-sh run_terraform_output.sh
